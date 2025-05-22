@@ -1,47 +1,25 @@
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Policy</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            padding: 40px;
-            max-width: 800px;
-            margin: auto;
-            background-color: #f9f9f9;
-        }
-        h1, h2 {
-            color: #333;
-        }
-    </style>
-</head>
-<body>
-    <h1>Privacy Policy</h1>
-    <p><strong>Effective Date:</strong> May 1, 2025</p>
+## Privacy Policy
 
-    <p>Thank you for using our Bus Arrival Time app. We value your privacy. This Privacy Policy explains how we handle information when you use our app.</p>
+**Effective Date:** May 1, 2025
 
-    <h2>1. Information We Do Not Collect</h2>
-    <p>We do <strong>not</strong> collect, store, or share any personally identifiable information (PII) such as your name, phone number.</p>
+Thank you for using our Bus Arrival Time app. We value your privacy. This Privacy Policy explains how we handle information when you use our app.
 
-    <h2>2. Anonymous Usage Data</h2>
-    <p>Our app may collect anonymous usage data (e.g.,  crash logs) to help us improve the app. This data does not identify you personally and is processed in aggregate only.</p>
+#### Information We Do Not Collect
+We do **not** collect, store, or share any personally identifiable information (PII) such as your name, phone number.
 
-    <h2>3. Third-Party Services</h2>
-    <p>We do <strong>not</strong> use third-party services that collect personal data through our app.</p>
+#### 2. Anonymous Usage Data
+Our app may collect anonymous usage data (e.g.,  crash logs) to help us improve the app. This data does not identify you personally and is processed in aggregate only.
 
-    <h2>4. Children’s Privacy</h2>
-    <p>Since our app does not collect any personal data, we do not knowingly collect information from children under the age of 13.</p>
+#### 3. Third-Party Services
+We do **not** use third-party services that collect personal data through our app.
 
-    <h2>5. Changes to This Policy</h2>
-    <p>We may update this Privacy Policy occasionally. Any changes will be posted here with an updated effective date.</p>
+#### 4. Children’s Privacy
+Since our app does not collect any personal data, we do not knowingly collect information from children under the age of 13.
 
-    <h2>6. Contact Us</h2>
-    <p>If you have any questions or concerns about this policy, feel free to contact us at: <br>
-    <strong>touzas@gmail.com</strong></p>
-</body>
-</html>
+#### 5. Changes to This Policy
+We may update this Privacy Policy occasionally. Any changes will be posted here with an updated effective date.
+
+#### 6. Contact Us
+If you have any questions or concerns about this policy, feel free to contact us at: 
+**touzas@gmail.com**
