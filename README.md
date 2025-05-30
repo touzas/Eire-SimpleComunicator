@@ -3,7 +3,7 @@
 
 **Effective Date:** May 1, 2025
 
-Thank you for using our Bus Arrival Time app. We value your privacy. This Privacy Policy explains how we handle information when you use our app.
+Thank you for using our app. We value your privacy. This Privacy Policy explains how we handle information when you use our app.
 
 #### Information We Do Not Collect
 We do **not** collect, store, or share any personally identifiable information (PII) such as your name, phone number.
