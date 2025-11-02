@@ -21,10 +21,13 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.touzas.EireSimpleComunicator"
-    },
-    "androidNavigationBar": {
-      "visible": "immersive"
+      "package": "com.touzas.EireSimpleComunicator",
+      "androidNavigationBar": {
+        "visible": "false"
+      },
+      "androidStatusBar": {
+        "hidden": true
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"

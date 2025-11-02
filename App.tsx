@@ -1,9 +1,11 @@
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-import { StrictMode, useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import 'react-native-reanimated';
-import { StyleSheet, View, Text, TextInput, TouchableOpacity, Alert, Pressable } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Pressable } from 'react-native';
 import * as Speech from 'expo-speech';
+import { StatusBar } from 'expo-status-bar';
+import * as NavigationBar from 'expo-navigation-bar';
 
 SplashScreen.preventAutoHideAsync();
 const specialKeyDelete = '⌫';
@@ -32,8 +34,22 @@ const App: React.FC = () => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    textRef.current = text;
+    const setupFullscreen = async () => {
+      // Ocultar barra de navegación
+      await NavigationBar.setVisibilityAsync('hidden');
+      
+      // Modo inmersivo sticky (se oculta automáticamente después de aparecer)
+      await NavigationBar.setBehaviorAsync('inset-swipe');
+      
+      // Color de fondo transparente
+      await NavigationBar.setBackgroundColorAsync('#00000000');
+    };
+    setupFullscreen();
     SplashScreen.hideAsync();
+  }, []);
+
+  useEffect(() => {
+    textRef.current = text;
   }, [text]);
 
   const isLetter = useCallback((key: string): boolean => {
@@ -196,6 +212,7 @@ const App: React.FC = () => {
 
   return (
     <View style={styles.globalContainer}>
+      <StatusBar hidden={true} />
       <View style={styles.inputContainer}>
         <TextInput
           ref={textInputRef}
@@ -207,6 +224,8 @@ const App: React.FC = () => {
           placeholderTextColor="#666"
           textAlignVertical="top"
           showSoftInputOnFocus={false}
+          autoCapitalize='none'
+          spellCheck={false}
         />
       </View>
       <View style={styles.keyboardContainer}>
@@ -261,7 +280,6 @@ const keyStyle = StyleSheet.create({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 20
   },
   globalContainer: {
     display: 'flex',
@@ -271,16 +289,15 @@ const styles = StyleSheet.create({
     padding: 5,
     margin: 0,
     backgroundColor: '#ffc0cb',
-    marginTop: 25,
+    paddingTop: 10,
   },
   inputContainer: {
     display: 'flex',
     flex: 1,
-    backgroundColor: '#f0f0f0',
-    borderRadius: 8,
-    paddingVertical: 5,
-    paddingHorizontal: 5,
-    marginBottom: 5,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    paddingVertical: 0,
+    paddingHorizontal: 10,
     width: '98%',
   },
   keyboardContainer: {
@@ -290,8 +307,10 @@ const styles = StyleSheet.create({
     width: '98%',
   },
   inputText: {
-    fontSize: 35,
+    fontSize: 30,
     fontWeight: '900',
+    backgroundColor: "white",
+    borderRadius: 20,
   },
   row: {
     flexDirection: 'row',
