@@ -2,16 +2,19 @@ import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { StrictMode, useState, useCallback, useRef, useEffect } from 'react';
 import 'react-native-reanimated';
-import { StyleSheet, View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, Alert, Pressable } from 'react-native';
 import * as Speech from 'expo-speech';
 
 SplashScreen.preventAutoHideAsync();
+const specialKeyDelete = '⌫';
+const specialKeyPlay = '▶';
+const specialKeySpace = 'Espacio';
 
 const keyboardLayout = [
   ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
   ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'Ñ'],
-  ['Z', 'X', 'C', 'V', 'B', 'N', 'M', '⌫'],
-  ['Espacio', '▶']
+  ['Z', 'X', 'C', 'V', 'B', 'N', 'M', specialKeyDelete],
+  [specialKeySpace, specialKeyPlay]
 ];
 
 const App: React.FC = () => {
@@ -44,7 +47,6 @@ const App: React.FC = () => {
     return key;
   }, [isLetter]);
 
-  // Manejar presión de tecla
   const handleKeyPress = useCallback((key: string): void => {
     const start = cursorPosRef.current;
     const end = selection.end;
@@ -62,7 +64,6 @@ const App: React.FC = () => {
     setSelection({ start: newPosition, end: newPosition });
   }, [GetKeyToAdd, selection.end]);
   
-  // Manejar espacio
   const handleSpace = useCallback((): void => {
     handleKeyPress(' ');
   }, [handleKeyPress]);
@@ -75,7 +76,6 @@ const App: React.FC = () => {
     }
   };
 
-  // Reproducir texto
   const speakText = useCallback(async (): Promise<void> => {
     if (isGenerating || !text) return;
     stopSpeech();
@@ -161,7 +161,6 @@ const App: React.FC = () => {
     }, 500);
   };
 
-
   const handleSelectionChange = (event: any) => {
     const newSelection = event.nativeEvent.selection;
     setSelection(newSelection);
@@ -172,6 +171,19 @@ const App: React.FC = () => {
     stopDeleting();
     deleteCharOnce();
   }, [deleteCharOnce]);  
+
+  const getStyleForKey = (key: string, pressed: boolean) => {
+    switch (key) {
+      case specialKeyDelete:
+        return pressed ? [styles.deleteKey, styles.specialButtonPressed] : styles.deleteKey;
+      case specialKeySpace:
+        return pressed ? [styles.space, styles.specialButtonPressed] : styles.space;
+      case specialKeyPlay:
+        return pressed ? [styles.playButton, styles.specialButtonPressed] : styles.playButton;
+      default:
+        return pressed ? [styles.key, styles.buttonPressed] : styles.key;
+    }
+  }
 
   useEffect(() => {
     return () => {
@@ -201,31 +213,31 @@ const App: React.FC = () => {
         {keyboardLayout.map((row, rowIndex) => (
           <View key={rowIndex} style={styles.row}>
             {row.map((key) => (
-              <TouchableOpacity
+              <Pressable
+                id={key}
                 key={key}
-                style={
-                  key === '⌫' ? styles.deleteKey : 
-                  key.toLocaleLowerCase() === "espacio" ? styles.space : 
-                  key === '▶' ? styles.playButton : styles.key
-                }
-                onPressIn={key === '⌫' ? startDeleting : undefined}
+                style={({ pressed }) =>  [
+                  getStyleForKey(key, pressed)
+                ]}
+                onPressIn={key === specialKeyDelete ? startDeleting : undefined}
                 onPressOut={stopDeleting}
                 onPress={
-                  key === '⌫' ? handleBackspace
-                : key.toLocaleLowerCase() === 'espacio' ? handleSpace
-                : key === '▶' ? speakText
+                  key === specialKeyDelete ? handleBackspace
+                : key === specialKeySpace ? handleSpace
+                : key === specialKeyPlay ? speakText
                 : () => handleKeyPress(key)
                 }
               >
+                
                 <Text
                   style={
-                    key === '⌫' ? styles.deleteKeyText :
-                    key.toLocaleLowerCase() === "espacio" ? styles.spaceText :
-                    key === '▶' ? styles.playButtonText :
+                    key === specialKeyDelete ? styles.deleteKeyText :
+                    key === specialKeySpace ? styles.spaceText :
+                    key === specialKeyPlay ? styles.playButtonText :
                     styles.keyText
                   }
                 >{key}</Text>
-              </TouchableOpacity>
+              </Pressable>
             ))}
           </View>
         ))}
@@ -259,6 +271,7 @@ const styles = StyleSheet.create({
     padding: 5,
     margin: 0,
     backgroundColor: '#ffc0cb',
+    marginTop: 25,
   },
   inputContainer: {
     display: 'flex',
@@ -325,4 +338,11 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontWeight: "900",
   },
+  buttonPressed: {
+    backgroundColor: '#CBC3E3',
+    borderColor: '#aaa',
+  },
+  specialButtonPressed: {
+    opacity: 0.7,
+  }
 });
