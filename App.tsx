@@ -9,14 +9,15 @@ import * as NavigationBar from 'expo-navigation-bar';
 
 SplashScreen.preventAutoHideAsync();
 const specialKeyDelete = '⌫';
-const specialKeyPlay = '▶';
+const specialKeyPlayES = 'ES🔊';
+const specialKeyPlayEN = 'EN🔊';
 const specialKeySpace = 'Espacio';
 
 const keyboardLayout = [
   ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
   ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'Ñ'],
   ['Z', 'X', 'C', 'V', 'B', 'N', 'M', specialKeyDelete],
-  [specialKeySpace, specialKeyPlay]
+  [specialKeySpace, specialKeyPlayES, specialKeyPlayEN]
 ];
 
 const App: React.FC = () => {
@@ -35,17 +36,11 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const setupFullscreen = async () => {
-      // Ocultar barra de navegación
       await NavigationBar.setVisibilityAsync('hidden');
-      
-      // Modo inmersivo sticky (se oculta automáticamente después de aparecer)
-      await NavigationBar.setBehaviorAsync('inset-swipe');
-      
-      // Color de fondo transparente
-      await NavigationBar.setBackgroundColorAsync('#00000000');
+      SplashScreen.hideAsync();
     };
+
     setupFullscreen();
-    SplashScreen.hideAsync();
   }, []);
 
   useEffect(() => {
@@ -92,14 +87,22 @@ const App: React.FC = () => {
     }
   };
 
-  const speakText = useCallback(async (): Promise<void> => {
+  const speakEN = () => {
+    speakText('en-US');
+  };
+
+  const speakES = () => {
+    speakText('es-ES');
+  };
+
+  const speakText = useCallback(async (lang: string): Promise<void> => {
     if (isGenerating || !text) return;
     stopSpeech();
 
     setIsGenerating(true);
     try {
       Speech.speak(text, {
-        language: 'es-ES',
+        language: lang,
         pitch: 1,
         rate: 1
       });
@@ -194,7 +197,8 @@ const App: React.FC = () => {
         return pressed ? [styles.deleteKey, styles.specialButtonPressed] : styles.deleteKey;
       case specialKeySpace:
         return pressed ? [styles.space, styles.specialButtonPressed] : styles.space;
-      case specialKeyPlay:
+      case specialKeyPlayES:
+      case specialKeyPlayEN:
         return pressed ? [styles.playButton, styles.specialButtonPressed] : styles.playButton;
       default:
         return pressed ? [styles.key, styles.buttonPressed] : styles.key;
@@ -243,7 +247,8 @@ const App: React.FC = () => {
                 onPress={
                   key === specialKeyDelete ? handleBackspace
                 : key === specialKeySpace ? handleSpace
-                : key === specialKeyPlay ? speakText
+                : key === specialKeyPlayEN  ? speakEN
+                : key === specialKeyPlayES  ? speakES
                 : () => handleKeyPress(key)
                 }
               >
@@ -252,7 +257,7 @@ const App: React.FC = () => {
                   style={
                     key === specialKeyDelete ? styles.deleteKeyText :
                     key === specialKeySpace ? styles.spaceText :
-                    key === specialKeyPlay ? styles.playButtonText :
+                    (key === specialKeyPlayEN || key === specialKeyPlayES) ? styles.playButtonText :
                     styles.keyText
                   }
                 >{key}</Text>
@@ -339,7 +344,7 @@ const styles = StyleSheet.create({
   space: {
     ...keyStyle.key,
     backgroundColor: 'purple',
-    width: '80%',
+    width: '60%',
     alignItems: 'center',
   },
   spaceText: {
