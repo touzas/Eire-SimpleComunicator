@@ -20,14 +20,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true,
-      "package": "com.touzas.EireSimpleComunicator",
-      "androidNavigationBar": {
-        "visible": "false"
-      },
-      "androidStatusBar": {
-        "hidden": true
-      }
+      "package": "com.touzas.EireSimpleComunicator"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -41,6 +34,14 @@
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
+        }
+      ],
+      [
+        "expo-navigation-bar",
+        {
+          "enforceContrast": false,
+          "barStyle": "light",
+          "hidden": true
         }
       ]
     ],
